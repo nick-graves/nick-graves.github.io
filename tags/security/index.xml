@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Security on The D3bug Blog</title><link>https://nick-graves.github.io/tags/security/</link><description>Recent content in Security on The D3bug Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 07 Jan 2026 09:57:52 -0800</lastBuildDate><atom:link href="https://nick-graves.github.io/tags/security/index.xml" rel="self" type="application/rss+xml"/><item><title>Active Directory Lab</title><link>https://nick-graves.github.io/post/active_directory/</link><pubDate>Wed, 07 Jan 2026 09:57:52 -0800</pubDate><guid>https://nick-graves.github.io/post/active_directory/</guid><description>&lt;h1 id="active-directory"&gt;Active Directory&lt;/h1&gt;
+&lt;h2 id="wikipedia"&gt;Wikipedia&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Active Directory (AD) is a directory service developed by Microsoft for Windows domain networks. Windows Server operating systems include it as a set of processes and services.&lt;!-- raw HTML omitted --&gt;[1][2]&lt;!-- raw HTML omitted --&gt; Originally, only centralized domain management used Active Directory. However, it ultimately became an umbrella title for various directory-based identity-related services.&lt;!-- raw HTML omitted --&gt;[3]&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="chatgpt"&gt;ChatGPT&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Active Directory (AD) is a centralized directory and identity management system used in Windows-based networks. It allows organizations to manage users, computers, permissions, and security policies from one place.&lt;/p&gt;</description></item></channel></rss>
