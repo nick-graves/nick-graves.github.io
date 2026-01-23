@@ -35,9 +35,9 @@ The second is &lt;strong&gt;the AI agent that exists inside the dashboard itself
 &lt;h2 id="6-multi-agent-vibe-coding-with-git-branches"&gt;6. Multi-Agent Vibe Coding with Git Branches
 &lt;/h2&gt;&lt;p&gt;One of the most effective setups I used was a &lt;strong&gt;multi-agent workflow&lt;/strong&gt; built around Git branches.&lt;/p&gt;
 &lt;p&gt;I split work across three sub-agents, each focused on a specific area like frontend changes, backend logic, or AI-related code. Each agent worked on its own branch and handled a narrow set of tasks instead of touching everything at once.&lt;/p&gt;
-&lt;p&gt;On top of that, I had a supervising agent whose job was to review changes, approve merges, or push back with feedback. That agent didn’t write much code itself — it mostly acted as a reviewer.&lt;/p&gt;
+&lt;p&gt;On top of that, I had a supervising agent whose job was to review changes, approve merges, or push back with feedback. That agent didn’t write much code itself it mostly acted as a reviewer.&lt;/p&gt;
 &lt;p&gt;This structure mattered more than I expected. It reduced chaos, made mistakes easier to undo, and prevented the codebase from drifting in random directions. It felt a lot closer to managing a small team than “vibe coding” in the usual sense.&lt;/p&gt;
-&lt;h2 id="7-claudemd-files-and-borrowing-from-others"&gt;7. claude.md Files (And Borrowing from Others)
+&lt;h2 id="7-claudemd-files-and-borrowing-from-others"&gt;7. CLAUDE.md Files (And Borrowing from Others)
 &lt;/h2&gt;&lt;p&gt;The thing that made this setup work was &lt;code&gt;CLAUDE.md&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;These files define how Claude should behave inside a project. At first, mine was pretty barebones. Over time, I started expanding it and honestly, I didn’t do that alone. I borrowed ideas from other people’s &lt;code&gt;CLAUDE.md&lt;/code&gt; files that I found on GitHub, stealing bits and pieces that reflected good coding practices, architectural discipline, and clear boundaries.&lt;/p&gt;
 &lt;p&gt;Things like:&lt;/p&gt;
@@ -86,6 +86,7 @@ alt="Alt text"
 loading="lazy"
 alt="Alt text"
 &gt;&lt;/p&gt;
+&lt;p&gt;NOTE: Some features were added after the &lt;code&gt;/frontend-design&lt;/code&gt; UI update.&lt;/p&gt;
 &lt;h2 id="9-the-token-problem-it-adds-up-fast"&gt;9. The Token Problem (It Adds Up Fast)
 &lt;/h2&gt;&lt;p&gt;This approach is effective, but it burns tokens fast.&lt;/p&gt;
 &lt;p&gt;Running multiple agents, keeping large context windows, and iterating often adds up quickly. I definitely noticed how fast usage climbed, especially when agents were working in parallel or reviewing large diffs. I could burn through all my tokens in 5 minutes if I wan&amp;rsquo;t careful.&lt;/p&gt;
