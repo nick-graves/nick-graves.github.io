@@ -1,4 +1,73 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on The D3bug Blog</title><link>https://nick-graves.github.io/post/</link><description>Recent content in Posts on The D3bug Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 23 Jan 2026 13:37:29 -0800</lastBuildDate><atom:link href="https://nick-graves.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Vide Coding with Claude Code</title><link>https://nick-graves.github.io/post/vibe_coding/</link><pubDate>Fri, 23 Jan 2026 13:37:29 -0800</pubDate><guid>https://nick-graves.github.io/post/vibe_coding/</guid><description>&lt;img src="https://nick-graves.github.io/post/images/claude_code.jpg" alt="Featured image of post Vide Coding with Claude Code" /&gt;&lt;h1 id="vibe-coding-but-for-real-building-with-claude-code-and-multi-agent-ai"&gt;Vibe Coding, But for Real: Building with Claude Code and Multi-Agent AI
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on The D3bug Blog</title><link>https://nick-graves.github.io/post/</link><description>Recent content in Posts on The D3bug Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 26 Jan 2026 19:50:27 -0800</lastBuildDate><atom:link href="https://nick-graves.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>HTB: ReactOOPS</title><link>https://nick-graves.github.io/post/reactoops/</link><pubDate>Mon, 26 Jan 2026 19:50:27 -0800</pubDate><guid>https://nick-graves.github.io/post/reactoops/</guid><description>&lt;img src="https://nick-graves.github.io/post/images/ReactOOPS.jpg" alt="Featured image of post HTB: ReactOOPS" /&gt;&lt;h1 id="htb-reactoops"&gt;HTB: ReactOOPS
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;Difficulty: Very Easy&lt;/li&gt;
+&lt;li&gt;Category: Web&lt;/li&gt;
+&lt;li&gt;Solved: 1/26/2026&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="challenge-description"&gt;Challenge Description
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;NexusAI&amp;rsquo;s polished assistant interface promises adaptive learning and seamless interaction. But beneath its reactive front end, subtle glitches hint that user input may be shaping the system in unexpected ways. Explore the platform, trace the echoes in its reactive layer, and uncover the hidden flaw buried behind the UI.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="https://nick-graves.github.io/post/images/ReactOOPS_webpage.png"
+loading="lazy"
+alt="Alt text"
+&gt;&lt;/p&gt;
+&lt;h2 id="recon"&gt;Recon
+&lt;/h2&gt;&lt;p&gt;I started by digging around the codebase which led to a few key findings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;package.json&lt;/code&gt; - Revealed the package name &lt;code&gt;react2shell&lt;/code&gt; along with the frameworks versions
+&lt;ul&gt;
+&lt;li&gt;Next.js &lt;code&gt;16.0.6&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;React &lt;code&gt;^19&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;Dockerfile&lt;/code&gt; showed a flag located at &lt;code&gt;/app/flag.txt&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Since the challenge description hinted at user input but there were no input forms on the page this seemed to indicate that the vulnerability was in the framework no the application code.&lt;/p&gt;
+&lt;h2 id="vulnerability-identification"&gt;Vulnerability Identification
+&lt;/h2&gt;&lt;p&gt;A quick google search of &amp;ldquo;react2shell&amp;rdquo; (just using my resources not cheating &amp;hellip; right?) pointed towards a a known vulnerability &lt;a class="link" href="https://nvd.nist.gov/vuln/detail/CVE-2025-55182" target="_blank" rel="noopener"
+&gt;CVE-2025-55182&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="how-the-vulnerability-works"&gt;How the Vulnerability Works
+&lt;/h2&gt;&lt;p&gt;The vulnerability exists in React&amp;rsquo;s Flight protocol deserializer, specifically in the &lt;code&gt;getOutlinedModel()&lt;/code&gt; function in &lt;code&gt;ReactFlightReplyServer.js&lt;/code&gt;. A missing &lt;code&gt;hasOwnProperty&lt;/code&gt; check during property traversal allows prototype chain pollution.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-javascript" data-lang="javascript"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// Vulnerable code
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; (&lt;span style="color:#66d9ef"&gt;let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;i&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;; &lt;span style="color:#a6e22e"&gt;i&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;lt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;path&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;length&lt;/span&gt;; &lt;span style="color:#a6e22e"&gt;i&lt;/span&gt;&lt;span style="color:#f92672"&gt;++&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;value&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;value&lt;/span&gt;[&lt;span style="color:#a6e22e"&gt;path&lt;/span&gt;[&lt;span style="color:#a6e22e"&gt;i&lt;/span&gt;]]; &lt;span style="color:#75715e"&gt;// No hasOwnProperty check!
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The attack chain then looks something like this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Send a reference like &lt;code&gt;$1:__proto__:then&lt;/code&gt; in a POST request&lt;/li&gt;
+&lt;li&gt;This traverses the prototype chain to reach &lt;code&gt;Chunk.prototype.then&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;React interprets the object as a Promise (due to the &lt;code&gt;.then&lt;/code&gt; property)&lt;/li&gt;
+&lt;li&gt;When React awaits the &amp;ldquo;Promise&amp;rdquo;, it executes attacker-controlled code&lt;/li&gt;
+&lt;li&gt;The code runs in Node.js context with server privileges&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="exploitation"&gt;Exploitation
+&lt;/h2&gt;&lt;p&gt;I used an exploit script that I found on &lt;a class="link" href="https://github.com/freeqaz/react2shell/tree/master" target="_blank" rel="noopener"
+&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;./exploit-redirect.sh http://&amp;lt;TARGET&amp;gt;:&amp;lt;PORT&amp;gt;/ &lt;span style="color:#e6db74"&gt;&amp;#34;cat /app/flag.txt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To get this result&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;+&lt;span style="color:#f92672"&gt;]&lt;/span&gt; HTTP &lt;span style="color:#ae81ff"&gt;303&lt;/span&gt; - Redirect exfil successful
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;[&lt;/span&gt;+&lt;span style="color:#f92672"&gt;]&lt;/span&gt; Command output:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;----------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;HTB&lt;span style="color:#f92672"&gt;{&lt;/span&gt;&amp;lt;flag&amp;gt;&lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;----------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="takeaways"&gt;Takeaways
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;You are only as strong as your weakest framework. In this example the application code was sound but an exploit in the framework left is vulnerable.&lt;/li&gt;
+&lt;li&gt;Sometimes the answer is in the package.json! It would never be this easy in the real world but for these little puzzles combing through the files can hold all kinds of little (or big) hints.&lt;/li&gt;
+&lt;li&gt;The initial exploit triggered RCE but didn&amp;rsquo;t return output. Using Next.js&amp;rsquo;s redirect mechanism allowed us to capture command output via response headers.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="references"&gt;References
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://nvd.nist.gov/vuln/detail/CVE-2025-55182" target="_blank" rel="noopener"
+&gt;https://nvd.nist.gov/vuln/detail/CVE-2025-55182&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.trendmicro.com/en_us/research/25/l/CVE-2025-55182-analysis-poc-itw.html" target="_blank" rel="noopener"
+&gt;https://www.trendmicro.com/en_us/research/25/l/CVE-2025-55182-analysis-poc-itw.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182" target="_blank" rel="noopener"
+&gt;https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components" target="_blank" rel="noopener"
+&gt;https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Vide Coding with Claude Code</title><link>https://nick-graves.github.io/post/vibe_coding/</link><pubDate>Fri, 23 Jan 2026 13:37:29 -0800</pubDate><guid>https://nick-graves.github.io/post/vibe_coding/</guid><description>&lt;img src="https://nick-graves.github.io/post/images/claude_code.jpg" alt="Featured image of post Vide Coding with Claude Code" /&gt;&lt;h1 id="vibe-coding-but-for-real-building-with-claude-code-and-multi-agent-ai"&gt;Vibe Coding, But for Real: Building with Claude Code and Multi-Agent AI
 &lt;/h1&gt;&lt;h2 id="1-vibe-coding-what-i-thought-it-was-vs-what-i-tried"&gt;1. Vibe Coding (What I Thought It Was vs What I Tried)
 &lt;/h2&gt;&lt;p&gt;Before this project, I had already been using AI a lot while coding, but mostly in a pretty shallow way. It was basically a better search engine. I’d ask it how something worked, grab a small snippet, tweak it, and move on. Helpful, but not game-changing. It never really felt like part of my workflow more so like a shortcut when I got stuck.&lt;/p&gt;
 &lt;p&gt;I had also tried coding agents before. When Gemini CLI first came out and was free, I played around with it a bit. But I didn’t really put any effort into setting it up properly. I just used it straight out of the box, didn’t give it any instructions, didn’t define how I wanted it to behave, and didn’t add things like a &lt;code&gt;GEMINI.md&lt;/code&gt; file. Unsurprisingly, the results were pretty underwhelming. It felt random, and I quickly wrote it off as not that useful.&lt;/p&gt;
